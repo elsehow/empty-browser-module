@@ -18,7 +18,7 @@ var yo = require('yo-yo')
    }
 */
 
-const WIDTH   = 300
+const WIDTH   = 600
 const PADDING = 5
 const MARGIN  = 3
 const COLORS = [
@@ -35,44 +35,54 @@ const COLORS = [
 ]
 
 function observed (moves) {
-  return yo`<div>
+  return yo`<div style=
+    " padding-bottom:${PADDING}px;">
     ${moves.map(function (item) {
       return yo`<div style=
-        "border:  #222 1px solid;
-         width:   ${WIDTH/3}px;
-         padding: ${PADDING}px;
-         margin:  auto;">
-        ${item.label}
-        <span style="
-           font-size:8pt;
-           color:#ccc;
-          ">
-          ${item.time}
-        </span>
-      </div>`
+        "padding-bottom:${PADDING+MARGIN}px;">
+        <div style=
+          "background: #121212;
+           color:      #fefefe;
+           padding:    ${PADDING}px;
+           width:100px;
+           display:inline; ">
+          ${item.label}
+        </div>
+        <div style=
+          "font-size: 8pt;
+           float:     right;
+           color:     #828282; ">
+         ${item.time}
+        </div>
+        `
     })}
   </div>`
 }
 
 function pieBar (proportions) {
   function proportionalBar (pred) {
-    return yo`<div>
-      <div>
-      ${pred.label} 
-    </div>
-      <div style=
-        "width:      ${(WIDTH/9)*pred.percent}px;
-         background: ${pred.color};
-         border:     #222 1px solid;
-         height:     30px;
-         float:      left;
-         margin:     0 20px 0 0;
-         ">
-      </div>
+    return yo`<div style=
+      "width:      ${WIDTH*pred.percent}px;
+       background: ${pred.color};
+       height:     30px;
+       float:      left; ">
     </div>`
   }
+  function proportionalLabel (pred) {
+    return yo`<div style=
+      "width:      ${WIDTH*pred.percent}px;
+       height:     30px;
+       float:      left; ">
+      ${pred.label}
+      </div>`
+  }
   return yo`<div>
-    ${proportions.map(proportionalBar)}
+    <div>
+      ${proportions.map(proportionalBar)}
+    </div>
+    <div>
+      ${proportions.map(proportionalLabel)}
+    </div>
   </div>`
 }
 
@@ -91,15 +101,11 @@ function predicted (prediction) {
     "margin: auto;">
     ${pieBar(proportions)}
   </div>`
-  // ${legend(proportions)}
 }
 
 function view (state) {
-  return yo`<div style="
-   width: ${WIDTH}px;
-   margin: auto;
-   ">
-    <div>
+  return yo`<div style=
+              "width: ${WIDTH}px">
     ${observed(state.last_observed)}
     ${predicted(state.prediction)}
   </div>`
