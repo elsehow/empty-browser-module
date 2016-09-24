@@ -1,6 +1,6 @@
-# empty-browser-module
+# empty-web-module
 
-an empty module project for the browser
+an module for the browser
 
 ## setup
 
